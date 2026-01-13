@@ -46,6 +46,12 @@ function Button({ children, asChild, ...props }: BitButtonProps) {
   const hasBorder =
     variant !== "ghost" && variant !== "link" && size !== "icon";
 
+  // Detect w-full and adjust for margin (m-1.5 = 6px on each side = 12px total)
+  const hasFullWidth = className?.includes("w-full");
+  const adjustedClassName = hasFullWidth
+    ? className?.replace(/w-full/g, "w-[calc(100%-12px)]")
+    : className;
+
   return (
     <ShadcnButton
       {...props}
@@ -53,7 +59,7 @@ function Button({ children, asChild, ...props }: BitButtonProps) {
         "rounded-none active:translate-y-1 transition-transform relative inline-flex items-center justify-center gap-1.5 border-none m-1.5",
         size === "icon" && "mx-1 my-0",
         font !== "normal" && "retro",
-        className
+        adjustedClassName
       )}
       size={size}
       variant={variant}
